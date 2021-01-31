@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,31 +36,35 @@ public class MostActiveCookieCommand implements Runnable {
   public void run() {
     var fromInstant = fromDate.atStartOfDay().toInstant(timeZone);
 
-    Map<String, Long> cookieIdToOccurrence;
+    Map<String, Long> cookieToOccurrenceInAGivenDate;
     try (Stream<String> lines = Files.lines(inputFilePath)) {
-      cookieIdToOccurrence = lines
+      cookieToOccurrenceInAGivenDate = lines
           .skip(NUMBER_OF_ROWS_TO_SKIP)
           .map(this::tryParseCookie)
           .flatMap(Optional::stream)
           .filter(cookieInfo -> cookieInfo.isWithin24hAfter(fromInstant))
           .takeWhile(cookieInfo -> cookieInfo.isNotFromSomeDateBefore(fromInstant))
           .collect(Collectors.groupingBy(CookieInfo::getId, Collectors.counting()));
-    } catch (IOException| UncheckedIOException e) {
+    } catch (IOException|UncheckedIOException e) {
       outputSink.write(String.format("The provided input file %s could not be found or read.", inputFilePath));
       throw new IllegalAppArgumentException(e);
     }
 
-    var mostActiveCookieIds = cookieIdToOccurrence.entrySet().stream()
+    var cookiesSortedByActivity = cookieToOccurrenceInAGivenDate.entrySet().stream()
         .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
         .collect(Collectors.toList());
 
-    if (mostActiveCookieIds.isEmpty()) {
+    outputMostActiveCookiesIfAny(cookiesSortedByActivity);
+  }
+
+  private void outputMostActiveCookiesIfAny(List<Map.Entry<String, Long>> cookiesSortedByActivity) {
+    if (cookiesSortedByActivity.isEmpty()) {
       outputSink.write(String.format("No active cookie for the provided date %s", fromDate));
       return;
     }
 
-    mostActiveCookieIds.stream()
-        .takeWhile(entry -> entry.getValue().equals(mostActiveCookieIds.get(0).getValue()))
+    cookiesSortedByActivity.stream()
+        .takeWhile(entry -> entry.getValue().equals(cookiesSortedByActivity.get(0).getValue()))
         .forEach(entry -> outputSink.write(entry.getKey()));
   }
 

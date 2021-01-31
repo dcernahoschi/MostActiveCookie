@@ -1,5 +1,4 @@
-Running the executable (for MacOS):
-
+Running the application MacOS executable, named macookie, found in the dist/ folder:
 ./macookie -d 2018-12-09 -f cookie_log.csv
 
 Pre-requisites to build and run the application:
@@ -15,28 +14,23 @@ Quickly run the built application:
 
 - from a Java IDE, e.g. IntelliJ, by running the main method class com.quantcast.App and providing
 the required parameters
-
-- from the command line in the project target/ directory with the following command:
-  java -cp classes/:/USER_HOME/.m2/repository/commons-cli/commons-cli/1.4/commons-cli-1.4.jar com.quantcast.cookieprocess.App  -d 2018-12-09 -f /some_dir/cookie_log.csv
   
-USER_HOME should be the directory where the maven .m2 directory is located 
+In order to build the native executable (tested only on MacOS):
 
-Build the native executable (tested only on MacOS):
-
-- install GraalVM locally, e.g with SDKMan (https://sdkman.io/):
+1. install GraalVM locally, e.g. with SDKMan (https://sdkman.io/):
 
 sdk install java 21.0.0.r11-grl
 
-- configure GraalVM:
+2. configure GraalVM home dir:
 
 export GRAALVM_HOME=$HOME/.sdkman/candidates/java/21.0.0.r11-grl
 
-- switch to GraaVM:
+3. switch to GraaVM:
 
 sdk use java 21.0.0.r11-grl
 
-- build the executable with maven:
+4. build the executable with maven:
 
 mvn package -Pnative
 
-In the end a file named macookie will be placed in target/ dir
+The binary file is named macookie and will be found in the target/ dir.

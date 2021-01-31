@@ -4,8 +4,8 @@ Running the application MacOS executable, named macookie, found in the dist/ fol
 
 Pre-requisites to build and run the application:
 
-- java 11 jdk installed
-- maven 3.6 installed
+- java 11 or later jdk installed
+- maven 3.6 or later installed
 
 Build the application:
 
@@ -32,6 +32,6 @@ sdk use java 21.0.0.r11-grl
 
 4. build the executable with maven:
 
-mvn package -Pnative
+mvn clean package -Pnative
 
 The binary file is named macookie and will be found in the target/ dir.

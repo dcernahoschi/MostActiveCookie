@@ -14,7 +14,7 @@ public class App {
       new App().run(args, outputSink);
     } catch (IllegalAppArgumentException allReadyDealtWith) {
     } catch (Throwable t) {
-      System.err.printf("Unexpected err %s%n", t.getMessage());
+      System.err.println("Unexpected exception");
       t.printStackTrace(System.err);
     }
   }

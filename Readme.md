@@ -1,4 +1,5 @@
 Running the application MacOS executable, named macookie, found in the dist/ folder:
+
 ./macookie -d 2018-12-09 -f cookie_log.csv
 
 Pre-requisites to build and run the application:

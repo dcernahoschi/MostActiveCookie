@@ -67,7 +67,8 @@ public class MostActiveCookieCommand implements Runnable {
     try {
       return Optional.of(CookieInfo.from(rawInput));
     } catch (IllegalArgumentException e) {
-      outputSink.write(String.format("Invalid cookie data, could not parse cookie id and date from input %s. Cookie will be ignored. Detail: %s", rawInput, e.getMessage()));
+      outputSink.write(String.format("Invalid cookie data, could not parse cookie id and date from input %s. " +
+          "Cookie will be ignored. Detail: %s", rawInput, e.getMessage()));
       return Optional.empty();
     }
   }

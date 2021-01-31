@@ -33,7 +33,8 @@ public class MostActiveCookieCommandTest {
     return Stream.of(
         Arguments.of(LocalDate.of(2018, 12, 9), "cookie_log_1.csv", List.of("AtY0laUfhglK3lC7")),
         Arguments.of(LocalDate.of(2018, 12, 9), "cookie_log_2.csv", List.of("AtY0laUfhglK3lC7", "SAZuXPGUrfbcn5UA")),
-        Arguments.of(LocalDate.of(2018, 12, 1), "cookie_log_1.csv", List.of("No active cookie for the provided date 2018-12-01"))
+        Arguments.of(LocalDate.of(2018, 12, 1), "cookie_log_1.csv",
+            List.of("No active cookie for the provided date 2018-12-01"))
     );
   }
 
@@ -55,7 +56,9 @@ public class MostActiveCookieCommandTest {
 
     new MostActiveCookieCommand(fromDate, inputFilePath, outputSink).run();
 
-    verify(outputSink, times(1)).write("Invalid cookie data, could not parse cookie id and date from input SAZuXPGUrfbcn5UA2018-12-09T12:13:00+00:00. Cookie will be ignored. Detail: Could not parse cookie id and date from input SAZuXPGUrfbcn5UA2018-12-09T12:13:00+00:00");
+    verify(outputSink, times(1)).write("Invalid cookie data, could not parse cookie id and date from " +
+        "input SAZuXPGUrfbcn5UA2018-12-09T12:13:00+00:00. Cookie will be ignored. Detail: Could not parse cookie id and date from " +
+        "input SAZuXPGUrfbcn5UA2018-12-09T12:13:00+00:00");
     verify(outputSink, times(1)).write("AtY0laUfhglK3lC7");
   }
 }
